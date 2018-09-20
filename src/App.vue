@@ -1,7 +1,17 @@
 <template>
   <div id="app">
 
-    <div class="player" v-for="player in players">Player: {{ player }}</div>
+    <h3>Current Player</h3>
+
+    {{ currentPlayer}}
+    <hr>
+    <div class="playerClass" v-for="player in players">
+      Player ID: {{ player._id }}<br>
+      Player X: {{ player.location.x }}<br>
+      Player Y: {{ player.location.y }}<br><br>
+
+      <input v-on:keyup.up="submit">
+    </div>
   </div>
 </template>
 
@@ -13,6 +23,7 @@ export default {
   name: "app",
   data() {
     return {
+      currentPlayer: new Player(),
       world: {},
       players: []
     };
@@ -30,8 +41,20 @@ export default {
   mounted: function() {
     client.setup('https://nico.sudo.org.au')
     this.world = new World(client.service('players'));
-    this.world.getPlayers(players => (this.players = players));
+    this.world.getPlayers(response => (this.players = response));
     this.world.onUpdate(this.updateWorld);
+
+    // Add player to the current world
+    this.currentPlayer.addToWorld(this.world)
+
+	  const playerID = 'Example';
+	  this.currentPlayer.setPlayerID(playerID);
+
+	  this.currentPlayer.existsInWorld().then(exists => {
+		  exists ? '' : this.currentPlayer.createInWorld()
+	  })
+
+
   }
 };
 </script>
