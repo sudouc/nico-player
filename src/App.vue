@@ -2,15 +2,16 @@
   <div id="app">
 
     <h3>Current Player</h3>
-    {{ currentPlayer }}
-
+    {{ currentPlayer.location }}
+    <input
+            v-on:keyup.up="currentPlayer.moveUp()">
     <hr>
     <div class="playerClass" v-for="player in players">
       Player ID: {{ player._id }}<br>
       Player X: {{ player.location.x }}<br>
       Player Y: {{ player.location.y }}<br><br>
 
-      <input v-on:keyup.up="submit">
+
     </div>
   </div>
 </template>
