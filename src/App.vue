@@ -2,8 +2,8 @@
   <div id="app">
 
     <h3>Current Player</h3>
+    {{ currentPlayer }}
 
-    {{ currentPlayer}}
     <hr>
     <div class="playerClass" v-for="player in players">
       Player ID: {{ player._id }}<br>
@@ -32,29 +32,26 @@ export default {
     updateWorld(newPlayerData) {
       this.players.forEach((player, index) => {
         if (newPlayerData._id === player._id) {
-        	this.$set(this.players, index, newPlayerData)
-
+          this.$set(this.players, index, newPlayerData);
         }
       });
     }
   },
   mounted: function() {
-    client.setup('https://nico.sudo.org.au')
-    this.world = new World(client.service('players'));
+    client.setup("https://nico.sudo.org.au");
+    this.world = new World(client.service("players"));
     this.world.getPlayers(response => (this.players = response));
     this.world.onUpdate(this.updateWorld);
 
     // Add player to the current world
-    this.currentPlayer.addToWorld(this.world)
+    this.currentPlayer.addToWorld(this.world);
 
-	  const playerID = 'Example';
-	  this.currentPlayer.setPlayerID(playerID);
+    const playerID = "Example";
+    this.currentPlayer.setPlayerID(playerID);
 
-	  this.currentPlayer.existsInWorld().then(exists => {
-		  exists ? '' : this.currentPlayer.createInWorld()
-	  })
-
-
+    this.currentPlayer.existsInWorld().then(exists => {
+      exists ? "" : this.currentPlayer.createInWorld();
+    });
   }
 };
 </script>
@@ -62,6 +59,5 @@ export default {
 <style lang="scss">
 html,
 body {
-
 }
 </style>
