@@ -2,11 +2,19 @@
   <div id="app">
 
     <h3>Current Player</h3>
+
     {{ currentPlayer.location }}
     <input
-            v-on:keyup.up="currentPlayer.moveUp()">
+            v-on:keydown.up="currentPlayer.moveUp()"
+            v-on:keydown.down="currentPlayer.moveDown()"
+            v-on:keydown.left="currentPlayer.moveLeft()"
+            v-on:keydown.right="currentPlayer.moveRight()">
+
+    <input type="text" v-model="currentPlayer.location.x">
+    <input type="text" v-model="currentPlayer.location.y">
     <hr>
     <div class="playerClass" v-for="player in players">
+      <div class="box" :class="{ me: player._id == 'Hello World' }" :style="{ bottom: player.location.y / 3 + 'vh', left: player.location.x / 3 + 'vh' }">{{ player._id }}</div>
       Player ID: {{ player._id }}<br>
       Player X: {{ player.location.x }}<br>
       Player Y: {{ player.location.y }}<br><br>
@@ -47,7 +55,7 @@ export default {
     // Add player to the current world
     this.currentPlayer.addToWorld(this.world);
 
-    const playerID = "Example";
+    const playerID = "Hello World";
     this.currentPlayer.setPlayerID(playerID);
 
     this.currentPlayer.existsInWorld().then(exists => {
@@ -58,7 +66,17 @@ export default {
 </script>
 
 <style lang="scss">
-html,
-body {
+.box {
+  position: fixed;
+  border-radius: 100px;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+
+  &.me {
+    height: 50px;
+    width: 50px;
+    background-color: blue;
+  }
 }
 </style>
